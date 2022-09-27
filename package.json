@@ -1,5 +1,5 @@
 {
-  "name": "movies-explorer-api",
+  "name": "funeral-services-api",
   "version": "1.0.0",
   "description": "Diploma",
   "main": "index.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alvde-site/movies-explorer-api.git"
+    "url": "git+https://github.com/alvde-site/funeral-services-api.git"
   },
   "author": "Demidenko Aleksandr",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/alvde-site/movies-explorer-api/issues"
+    "url": "https://github.com/alvde-site/funeral-services-api/issues"
   },
-  "homepage": "https://github.com/alvde-site/movies-explorer-api#readme",
+  "homepage": "https://github.com/alvde-site/funeral-services-api#readme",
   "devDependencies": {
     "eslint": "^8.20.0",
     "eslint-config-airbnb-base": "^15.0.0",
