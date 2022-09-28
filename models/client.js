@@ -18,6 +18,16 @@ const clientSchema = new mongoose.Schema({
     minlength: 13,
     maxlength: 13,
   },
+  status: {
+    type: String,
+    required: true,
+    default: 'Новый клиент',
+  },
+  description: {
+    type: String,
+    required: true,
+    default: 'Описание',
+  },
 });
 
 // создаём модель и экспортируем её
