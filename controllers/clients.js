@@ -1,14 +1,11 @@
-const bcrypt = require('bcrypt'); // импортируем bcrypt
 const Client = require('../models/client');
 
 const NotFoundError = require('../errors/not-found-err');
 const BadRequestError = require('../errors/bad-request-err');
-const ConflictError = require('../errors/conflict-error');
 const {
   NotFoundClient,
   EditClientError,
   IncorrectClientData,
-  UsedEmail,
 } = require('../utils/constants');
 
 module.exports.getClients = (req, res, next) => {
@@ -56,21 +53,16 @@ module.exports.updateClient = (req, res, next) => {
 
 module.exports.createClient = (req, res, next) => {
   const {
-    name, email, password,
+    phone, email,
   } = req.body;
 
-  bcrypt.hash(password, 10)
-    .then((hash) => Client.create({
-      name, email, password: hash,
-    }))
-    .then((client) => res.send({
-      name: client.name, email: client.email,
-    }))
+  Client.create({
+    phone, email,
+  })
+    .then((client) => res.send(client))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError(IncorrectClientData));
-      } else if (err.code === 11000) {
-        next(new ConflictError(UsedEmail));
       } else {
         next(err);
       }
