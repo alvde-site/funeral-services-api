@@ -33,10 +33,14 @@ module.exports.getCurrentClient = (req, res, next) => {
 };
 
 module.exports.updateClient = (req, res, next) => {
-  const { name, email } = req.body;
+  const {
+    email, phone, status, description,
+  } = req.body;
   Client.findByIdAndUpdate(
-    req.client._id,
-    { name, email },
+    req.params.id,
+    {
+      email, phone, status, description,
+    },
     {
       new: true, runValidators: true,
     },
