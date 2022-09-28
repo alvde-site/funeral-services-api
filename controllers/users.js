@@ -41,6 +41,27 @@ module.exports.createUser = (req, res, next) => {
     });
 };
 
+module.exports.login = (req, res, next) => {
+  const { email, password } = req.body;
+
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      // создадим токен
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : SecretKey,
+        { expiresIn: '180d' },
+      );
+      // отправим токен, браузер сохранит его в куках
+      res.send({ token }); // если у ответа нет тела, можно использовать метод end
+    })
+    .catch(() => {
+      // возвращаем ошибку аутентификации
+      throw new UnauthorizedError(IncorrectLoginPassword);
+    })
+    .catch(next);
+};
+
 module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
@@ -77,27 +98,6 @@ module.exports.updateUser = (req, res, next) => {
         next(err);
       }
     });
-};
-
-module.exports.login = (req, res, next) => {
-  const { email, password } = req.body;
-
-  return User.findUserByCredentials(email, password)
-    .then((user) => {
-      // создадим токен
-      const token = jwt.sign(
-        { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : SecretKey,
-        { expiresIn: '7d' },
-      );
-      // отправим токен, браузер сохранит его в куках
-      res.send({ token }); // если у ответа нет тела, можно использовать метод end
-    })
-    .catch(() => {
-      // возвращаем ошибку аутентификации
-      throw new UnauthorizedError(IncorrectLoginPassword);
-    })
-    .catch(next);
 };
 
 module.exports.signout = (req, res, next) => {
