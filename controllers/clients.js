@@ -13,14 +13,8 @@ const {
 
 module.exports.getClients = (req, res, next) => {
   Client.find({})
-    .then((clients) => {
-      console.log("Здесь")
-      return res.status(200).send(clients)
-    })
-    .catch((err) => {
-      console.log(err);
-      return next;
-    });
+    .then((clients) => res.status(200).send(clients))
+    .catch(next);
 };
 
 module.exports.getCurrentClient = (req, res, next) => {
