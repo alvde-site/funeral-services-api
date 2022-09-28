@@ -18,6 +18,29 @@ const {
   SomethingWrong,
 } = require('../utils/constants');
 
+module.exports.createUser = (req, res, next) => {
+  const {
+    email, password,
+  } = req.body;
+
+  bcrypt.hash(password, 10)
+    .then((hash) => User.create({
+      email, password: hash,
+    }))
+    .then((user) => res.send({
+      email: user.email,
+    }))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError(IncorrectUserData));
+      } else if (err.code === 11000) {
+        next(new ConflictError(UsedEmail));
+      } else {
+        next(err);
+      }
+    });
+};
+
 module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
@@ -50,29 +73,6 @@ module.exports.updateUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError(EditProfileError));
-      } else {
-        next(err);
-      }
-    });
-};
-
-module.exports.createUser = (req, res, next) => {
-  const {
-    name, email, password,
-  } = req.body;
-
-  bcrypt.hash(password, 10)
-    .then((hash) => User.create({
-      name, email, password: hash,
-    }))
-    .then((user) => res.send({
-      name: user.name, email: user.email,
-    }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new BadRequestError(IncorrectUserData));
-      } else if (err.code === 11000) {
-        next(new ConflictError(UsedEmail));
       } else {
         next(err);
       }
