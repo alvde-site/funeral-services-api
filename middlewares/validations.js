@@ -1,13 +1,4 @@
 const { celebrate, Joi } = require('celebrate');
-const validator = require('validator');
-const { IncorrectLinkFormat } = require('../utils/constants');
-
-const validateURL = (value) => {
-  if (!validator.isURL(value, { require_protocol: true })) {
-    throw new Error(IncorrectLinkFormat);
-  }
-  return value;
-};
 
 // Валидация /signup роута
 
@@ -30,26 +21,27 @@ const validateLogin = celebrate({
 
 // Валидация /moveis роута
 
-const validatePostMoviesRouter = celebrate({
+const validatePostClientsRouter = celebrate({
   body: Joi.object().keys({
-    country: Joi.string().required(),
-    director: Joi.string().required(),
-    duration: Joi.number().integer(),
-    year: Joi.string().required(),
+    email: Joi.string().required().email(),
+    phone: Joi.string().required(),
+    status: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required().custom(validateURL),
-    trailerLink: Joi.string().required().custom(validateURL),
-    thumbnail: Joi.string().required().custom(validateURL),
-    movieId: Joi.number().integer(),
-    nameRU: Joi.string().required(),
-    nameEN: Joi.string().required(),
   }),
 });
 
-const validateDeleteMovie = celebrate({
-  // валидируем параметры
+const validateDeleteClient = celebrate({
   params: Joi.object().keys({
     id: Joi.string().length(24).hex().required(),
+  }),
+});
+
+const validateUpdateClient = celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    phone: Joi.string().required(),
+    status: Joi.string().required(),
+    description: Joi.string().required(),
   }),
 });
 
@@ -65,7 +57,8 @@ const validationUpdateUser = celebrate({
 module.exports = {
   validateCreateUser,
   validateLogin,
-  validatePostMoviesRouter,
-  validateDeleteMovie,
+  validatePostClientsRouter,
+  validateDeleteClient,
+  validateUpdateClient,
   validationUpdateUser,
 };

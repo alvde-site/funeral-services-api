@@ -11,6 +11,15 @@ const {
   UsedEmail,
 } = require('../utils/constants');
 
+module.exports.getClients = (req, res, next) => {
+  const owner = req.user._id;
+  Client.find({ owner })
+    .then((clients) => {
+      res.status(200).send(clients);
+    })
+    .catch(next);
+};
+
 module.exports.getCurrentClient = (req, res, next) => {
   Client.findById(req.client._id)
     .then((client) => {
