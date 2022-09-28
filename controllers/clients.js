@@ -1,9 +1,6 @@
 const bcrypt = require('bcrypt'); // импортируем bcrypt
-const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const Client = require('../models/client');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
-const UnauthorizedError = require('../errors/unauthorized-err');
 const NotFoundError = require('../errors/not-found-err');
 const BadRequestError = require('../errors/bad-request-err');
 const ConflictError = require('../errors/conflict-error');
@@ -12,10 +9,6 @@ const {
   EditProfileError,
   IncorrectUserData,
   UsedEmail,
-  SecretKey,
-  IncorrectLoginPassword,
-  DeletedToken,
-  SomethingWrong,
 } = require('../utils/constants');
 
 module.exports.getCurrentClient = (req, res, next) => {
