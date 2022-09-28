@@ -19,10 +19,10 @@ const CanNotFind = 'Извините, я не могу это найти!';
 const ServerError = 'На сервере произошла ошибка';
 const AuthError = 'Нужно авторизоваться';
 const IncorrectLoginPassword = 'Вы ввели неправильный логин или пароль';
-const NotFoundUser = 'Пользователь по указанному_id в БД не найден';
+const NotFoundClient = 'Клиент по указанному_id в БД не найден';
 const NotFoundMovie = 'Фильма по указанному_id в БД не найдено';
-const EditProfileError = 'При обновлении профиля произошла ошибка';
-const IncorrectUserData = 'Переданы некорректные данные при создании пользователя';
+const EditClientError = 'При обновлении клиента произошла ошибка';
+const IncorrectClientData = 'Переданы некорректные данные при создании клиента';
 const IncorrectMoviesData = 'Переданы некорректные данные при создании фильма';
 const UsedEmail = 'email уже занят';
 const DeletedToken = 'Токен удален';
@@ -41,10 +41,10 @@ module.exports = {
   ServerError,
   AuthError,
   IncorrectLoginPassword,
-  NotFoundUser,
+  NotFoundClient,
   NotFoundMovie,
-  EditProfileError,
-  IncorrectUserData,
+  EditClientError,
+  IncorrectClientData,
   IncorrectMoviesData,
   UsedEmail,
   DeletedToken,

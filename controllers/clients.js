@@ -5,24 +5,24 @@ const NotFoundError = require('../errors/not-found-err');
 const BadRequestError = require('../errors/bad-request-err');
 const ConflictError = require('../errors/conflict-error');
 const {
-  NotFoundUser,
-  EditProfileError,
-  IncorrectUserData,
+  NotFoundClient,
+  EditClientError,
+  IncorrectClientData,
   UsedEmail,
 } = require('../utils/constants');
 
 module.exports.getCurrentClient = (req, res, next) => {
-  Client.findById(req.user._id)
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError(NotFoundUser);
+  Client.findById(req.client._id)
+    .then((client) => {
+      if (!client) {
+        throw new NotFoundError(NotFoundClient);
       } else {
-        res.send(user);
+        res.send(client);
       }
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError(NotFoundUser));
+        next(new BadRequestError(NotFoundClient));
       } else {
         next(err);
       }
@@ -31,18 +31,17 @@ module.exports.getCurrentClient = (req, res, next) => {
 
 module.exports.updateClient = (req, res, next) => {
   const { name, email } = req.body;
-  // обновим имя найденного по _id пользователя
   Client.findByIdAndUpdate(
-    req.user._id,
+    req.client._id,
     { name, email },
     {
       new: true, runValidators: true,
     },
   )
-    .then((user) => res.send(user))
+    .then((client) => res.send(client))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError(EditProfileError));
+        next(new BadRequestError(EditClientError));
       } else {
         next(err);
       }
@@ -55,15 +54,15 @@ module.exports.createClient = (req, res, next) => {
   } = req.body;
 
   bcrypt.hash(password, 10)
-    .then((hash) => User.create({
+    .then((hash) => Client.create({
       name, email, password: hash,
     }))
-    .then((user) => res.send({
-      name: user.name, email: user.email,
+    .then((client) => res.send({
+      name: client.name, email: client.email,
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError(IncorrectUserData));
+        next(new BadRequestError(IncorrectClientData));
       } else if (err.code === 11000) {
         next(new ConflictError(UsedEmail));
       } else {
@@ -75,16 +74,11 @@ module.exports.createClient = (req, res, next) => {
 module.exports.deleteClient = (req, res, next) => {
   const { id } = req.params;
   Client.findById(id)
-    .orFail(() => new NotFoundError(NotFoundMovie))
-    .then((movie) => {
-      if (!movie.owner.equals(req.user._id)) {
-        return next(new ForbiddenError(ForbiddenDeleteMovie));
-      }
-      return movie.remove().then(() => res.send(movie));
-    })
+    .orFail(() => new NotFoundError(NotFoundClient))
+    .then((client) => client.remove().then(() => res.send(client)))
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError(NotFoundMovie));
+        next(new BadRequestError(NotFoundClient));
       } else {
         next(err);
       }
