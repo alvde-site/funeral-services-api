@@ -25,8 +25,8 @@ const validatePostClientsRouter = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     phone: Joi.string().required(),
-    status: Joi.string().required(),
-    description: Joi.string().required(),
+    status: Joi.string(),
+    description: Joi.string(),
   }),
 });
 

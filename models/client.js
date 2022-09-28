@@ -20,12 +20,10 @@ const clientSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    required: true,
     default: 'Новый клиент',
   },
   description: {
     type: String,
-    required: true,
     default: 'Описание',
   },
 });
