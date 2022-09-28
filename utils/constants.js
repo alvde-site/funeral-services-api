@@ -11,7 +11,6 @@ const options = { // Опции для cors
 const SecretKey = 'some-secret-key';
 
 // Сообщения ошибок
-const ServerCrash = 'Сервер сейчас упадёт';
 const IncorrectEmailPassword = 'Вы ввели неправильный логин или пароль';
 const EnterEmail = 'Введите почту';
 const IncorrectLinkFormat = 'Неправильный формат ссылки';
@@ -33,7 +32,6 @@ const MovieIsRemoved = 'Фильм удален';
 module.exports = {
   options,
   SecretKey,
-  ServerCrash,
   IncorrectEmailPassword,
   EnterEmail,
   IncorrectLinkFormat,

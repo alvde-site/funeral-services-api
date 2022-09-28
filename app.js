@@ -11,7 +11,7 @@ const limiter = require('./utils/rateLimit');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const CentralizedErrorHandler = require('./middlewares/centralized-err-handler');
 const NotFoundErrorHandler = require('./middlewares/notfound-error-handler');
-const { options, ServerCrash } = require('./utils/constants');
+const { options } = require('./utils/constants');
 
 const routes = require('./routes');
 const { MoviesDB } = require('./config');
@@ -34,12 +34,6 @@ mongoose.connect(MoviesDB, {
 
 app.use(requestLogger); // подключаем логгер запросов
 app.use(limiter);
-
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error(ServerCrash);
-  }, 0);
-});
 
 app.use(routes);
 

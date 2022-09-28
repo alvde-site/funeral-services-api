@@ -12,12 +12,15 @@ const {
 } = require('../utils/constants');
 
 module.exports.getClients = (req, res, next) => {
-  const owner = req.user._id;
-  Client.find({ owner })
+  Client.find({})
     .then((clients) => {
-      res.status(200).send(clients);
+      console.log("Здесь")
+      return res.status(200).send(clients)
     })
-    .catch(next);
+    .catch((err) => {
+      console.log(err);
+      return next;
+    });
 };
 
 module.exports.getCurrentClient = (req, res, next) => {
