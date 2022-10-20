@@ -14,7 +14,7 @@ const NotFoundErrorHandler = require('./middlewares/notfound-error-handler');
 const { options } = require('./utils/constants');
 
 const routes = require('./routes');
-const { MoviesDB } = require('./config');
+const { ClientsDB } = require('./config');
 
 const { PORT = 3001 } = process.env;
 
@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-mongoose.connect(MoviesDB, {
+mongoose.connect(ClientsDB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
