@@ -7,9 +7,8 @@ module.exports.sendMsg = (req, res) => {
   const reqBody = req.body;
   // каждый элемент обьекта запихиваем в массив
   const fields = [
-    `<b>Name</b>: ${reqBody.name}`,
     `<b>Email</b>: ${reqBody.email}`,
-    reqBody.text,
+    `<b>Tel</b>: ${reqBody.phone}`,
   ];
   let msg = '';
   // проходимся по массиву и склеиваем все в одну строку
